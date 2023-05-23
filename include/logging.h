@@ -15,7 +15,7 @@
 #include <fstream>
 #include <iostream>
 #include <list>
-#include <source_location>
+#include <experimental/source_location>
 #include <sstream>
 #include <string>
 
@@ -26,7 +26,7 @@ class LogWriter;
 
 class LogWriter {
 public:
-    LogWriter(const std::source_location &location, LogLevel loglevel) : location_(location), log_level_(loglevel) {
+    LogWriter(const std::experimental::source_location &location, LogLevel loglevel) : location_(location), log_level_(loglevel) {
         char *logv = std::getenv("LOGV");
         if (logv) {
             env_log_level = std::stoi(logv);
@@ -39,7 +39,7 @@ public:
 
 private:
     void output_log(const std::ostringstream &g);
-    std::source_location location_;
+    std::experimental::source_location location_;
     LogLevel log_level_;
     int env_log_level;
 };
@@ -63,7 +63,7 @@ private:
 std::string level2string(LogLevel level);
 fmt::color level2color(LogLevel level);
 
-#define LOG_IF(level) LogWriter(std::source_location::current(), level) < LogStream()
+#define LOG_IF(level) LogWriter(std::experimental::source_location::current(), level) < LogStream()
 #define LOG(level) LOG_##level
 #define LOG_DEBUG LOG_IF(DEBUG)
 #define LOG_INFO LOG_IF(INFO)
